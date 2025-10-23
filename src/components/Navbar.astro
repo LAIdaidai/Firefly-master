@@ -109,8 +109,9 @@ loadButtonScript();
 
 // 为semifull模式添加滚动检测逻辑
 function initSemifullScrollDetection() {
-    const navbar = document.getElementById('navbar');
-    if (!navbar) return;
+    const navbarElement = document.getElementById('navbar');
+    if (!(navbarElement instanceof HTMLElement)) return;
+    const navbar = navbarElement;
     
     const transparentMode = navbar.getAttribute('data-transparent-mode');
     if (transparentMode !== 'semifull') return;
