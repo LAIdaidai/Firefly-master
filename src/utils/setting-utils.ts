@@ -54,7 +54,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
   const currentTheme = document.documentElement.getAttribute("data-theme");
 
   // 计算目标主题状态
-  let targetIsDark: boolean = false; // 初始化默认值
+  let targetIsDark = false; // 初始化默认值
   switch (resolvedTheme) {
     case LIGHT_MODE:
       targetIsDark = false;

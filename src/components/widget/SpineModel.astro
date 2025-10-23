@@ -585,7 +585,7 @@ import { spineModelConfig } from "../../config/pioConfig";
 
           console.log("✅ Spine model setup complete!");
         },
-        error: (player, reason) => {
+        error: (_player, reason) => {
           console.error("❌ Spine model loading error:", reason);
 
           const errorDiv = document.getElementById("spine-error");
@@ -603,8 +603,8 @@ import { spineModelConfig } from "../../config/pioConfig";
           if (canvas) canvas.style.display = "none";
         },
       });
-    } catch (error) {
-      console.error("Spine model initialization error:", error);
+    } catch (err) {
+      console.error("Spine model initialization error:", err);
 
       // 重置初始化标志，允许重试
       window.spineModelInitialized = false;
@@ -615,7 +615,7 @@ import { spineModelConfig } from "../../config/pioConfig";
         errorDiv.innerHTML = `
           <div style="color: #ff4444; padding: 20px; text-align: center; font-size: 14px;">
             <div>⚠️ Spine 运行时加载失败</div>
-            <div style="font-size: 12px; margin-top: 8px; color: #888;">${error instanceof Error ? error.message : "未知错误"}</div>
+            <div style="font-size: 12px; margin-top: 8px; color: #888;">${err instanceof Error ? err.message : "未知错误"}</div>
           </div>
         `;
       }
