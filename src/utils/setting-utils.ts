@@ -138,11 +138,11 @@ export function setupSystemThemeListener(): void {
   if (systemThemeListener) {
     window
       .matchMedia("(prefers-color-scheme: dark)")
-      .removeListener(systemThemeListener);
+      .removeEventListener("change", systemThemeListener);
   }
 
   // 添加新的监听器
-  systemThemeListener = (e: MediaQueryListEvent) => {
+  systemThemeListener = (_e: MediaQueryListEvent) => {
     const currentTheme = getStoredTheme();
     if (currentTheme === SYSTEM_MODE) {
       applyThemeToDocument(SYSTEM_MODE);
@@ -151,7 +151,7 @@ export function setupSystemThemeListener(): void {
 
   window
     .matchMedia("(prefers-color-scheme: dark)")
-    .addListener(systemThemeListener);
+    .addEventListener("change", systemThemeListener);
 }
 
 export function getStoredTheme(): LIGHT_DARK_MODE {
