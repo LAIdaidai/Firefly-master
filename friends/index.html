@@ -345,13 +345,13 @@ const retryCount = 3;
     }
 
     // 导出便捷函数到全局
-    window.loadIconify = () => window.__iconifyLoader.load();
-    window.preloadIcons = (icons) => window.__iconifyLoader.addToPreloadQueue(icons);
-    window.onIconifyReady = (callback) => window.__iconifyLoader.onLoad(callback);
+    window.loadIconify = () => window.__iconifyLoader?.load();
+    window.preloadIcons = (icons) => window.__iconifyLoader?.addToPreloadQueue(icons);
+    window.onIconifyReady = (callback) => window.__iconifyLoader?.onLoad(callback);
 
     // 页面可见性变化时重新检查
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && !window.__iconifyLoader.isLoaded) {
+      if (!document.hidden && window.__iconifyLoader && !window.__iconifyLoader.isLoaded) {
         window.__iconifyLoader.load().catch(console.error);
       }
     });

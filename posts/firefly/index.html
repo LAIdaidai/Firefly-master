@@ -345,13 +345,13 @@ const retryCount = 3;
     }
 
     // 导出便捷函数到全局
-    window.loadIconify = () => window.__iconifyLoader.load();
-    window.preloadIcons = (icons) => window.__iconifyLoader.addToPreloadQueue(icons);
-    window.onIconifyReady = (callback) => window.__iconifyLoader.onLoad(callback);
+    window.loadIconify = () => window.__iconifyLoader?.load();
+    window.preloadIcons = (icons) => window.__iconifyLoader?.addToPreloadQueue(icons);
+    window.onIconifyReady = (callback) => window.__iconifyLoader?.onLoad(callback);
 
     // 页面可见性变化时重新检查
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && !window.__iconifyLoader.isLoaded) {
+      if (!document.hidden && window.__iconifyLoader && !window.__iconifyLoader.isLoaded) {
         window.__iconifyLoader.load().catch(console.error);
       }
     });
@@ -528,22 +528,22 @@ if (document.readyState === 'loading') {
                 <a href="/archive/?tag=Markdown" aria-label="View all posts with the Markdown tag" class="link-lg transition text-50 text-sm font-medium
                                 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap"> Markdown </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
                 <a href="/archive/?tag=Firefly" aria-label="View all posts with the Firefly tag" class="link-lg transition text-50 text-sm font-medium
-                                hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap"> Firefly </a>  </div> </div> <!-- Twikoo访问量统计（首页不显示，且文章访问量统计启用时显示） -->  </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mt-3 mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <section><h2 id="-项目概述">🌟 项目概述<a class="anchor" href="#-项目概述"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p><strong>Firefly</strong> 是一款基于 Astro 框架开发的清新美观且现代化个人博客主题，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。</p><p><strong>🖥️在线预览： <a href="https://demo-firefly.netlify.app/">Firefly - Demo site</a></strong></p><p><strong>🏠我的博客： <a href="https://blog.cuteleaf.cn/">https://blog.cuteleaf.cn</a></strong></p><p><strong>📝Firefly使用文档： <a href="https://docs-firefly.cuteleaf.cn/">https://docs-firefly.cuteleaf.cn</a></strong></p><p><strong>⭐Firefly开源地址：<a href="https://github.com/CuteLeaf/Firefly">https://github.com/CuteLeaf/Firefly</a></strong></p><a id="GCteutzj-card" class="card-github fetch-waiting no-styling" href="https://github.com/CuteLeaf/Firefly" target="_blank" repo="CuteLeaf/Firefly"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GCteutzj-avatar" class="gc-avatar"></div><div class="gc-user">CuteLeaf</div></div><div class="gc-divider">/</div><div class="gc-repo">Firefly</div></div><div class="github-logo"></div></div><div id="GCteutzj-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GCteutzj-stars" class="gc-stars">00K</div><div id="GCteutzj-forks" class="gc-forks">0K</div><div id="GCteutzj-license" class="gc-license">0K</div><span id="GCteutzj-language" class="gc-language">Waiting...</span></div><script id="GCteutzj-script" type="text/javascript" defer>
+                                hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap"> Firefly </a>  </div> </div> <!-- Twikoo访问量统计（首页不显示，且文章访问量统计启用时显示） -->  </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mt-3 mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <section><h2 id="-项目概述">🌟 项目概述<a class="anchor" href="#-项目概述"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p><strong>Firefly</strong> 是一款基于 Astro 框架开发的清新美观且现代化个人博客主题，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。</p><p><strong>🖥️在线预览： <a href="https://demo-firefly.netlify.app/">Firefly - Demo site</a></strong></p><p><strong>🏠我的博客： <a href="https://blog.cuteleaf.cn/">https://blog.cuteleaf.cn</a></strong></p><p><strong>📝Firefly使用文档： <a href="https://docs-firefly.cuteleaf.cn/">https://docs-firefly.cuteleaf.cn</a></strong></p><p><strong>⭐Firefly开源地址：<a href="https://github.com/CuteLeaf/Firefly">https://github.com/CuteLeaf/Firefly</a></strong></p><a id="GC0i7umf-card" class="card-github fetch-waiting no-styling" href="https://github.com/CuteLeaf/Firefly" target="_blank" repo="CuteLeaf/Firefly"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GC0i7umf-avatar" class="gc-avatar"></div><div class="gc-user">CuteLeaf</div></div><div class="gc-divider">/</div><div class="gc-repo">Firefly</div></div><div class="github-logo"></div></div><div id="GC0i7umf-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GC0i7umf-stars" class="gc-stars">00K</div><div id="GC0i7umf-forks" class="gc-forks">0K</div><div id="GC0i7umf-license" class="gc-license">0K</div><span id="GC0i7umf-language" class="gc-language">Waiting...</span></div><script id="GC0i7umf-script" type="text/javascript" defer>
       fetch('https://api.github.com/repos/CuteLeaf/Firefly', { referrerPolicy: "no-referrer" }).then(response => response.json()).then(data => {
-        document.getElementById('GCteutzj-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
-        document.getElementById('GCteutzj-language').innerText = data.language;
-        document.getElementById('GCteutzj-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
-        document.getElementById('GCteutzj-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
-        const avatarEl = document.getElementById('GCteutzj-avatar');
+        document.getElementById('GC0i7umf-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
+        document.getElementById('GC0i7umf-language').innerText = data.language;
+        document.getElementById('GC0i7umf-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
+        document.getElementById('GC0i7umf-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
+        const avatarEl = document.getElementById('GC0i7umf-avatar');
         avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
         avatarEl.style.backgroundColor = 'transparent';
-        document.getElementById('GCteutzj-license').innerText = data.license?.spdx_id || "no-license";
-        document.getElementById('GCteutzj-card').classList.remove("fetch-waiting");
-        console.log("[GITHUB-CARD] Loaded card for CuteLeaf/Firefly | GCteutzj.")
+        document.getElementById('GC0i7umf-license').innerText = data.license?.spdx_id || "no-license";
+        document.getElementById('GC0i7umf-card').classList.remove("fetch-waiting");
+        console.log("[GITHUB-CARD] Loaded card for CuteLeaf/Firefly | GC0i7umf.")
       }).catch(err => {
-        const c = document.getElementById('GCteutzj-card');
+        const c = document.getElementById('GC0i7umf-card');
         c?.classList.add("fetch-error");
-        console.warn("[GITHUB-CARD] (Error) Loading card for CuteLeaf/Firefly | GCteutzj.")
+        console.warn("[GITHUB-CARD] (Error) Loading card for CuteLeaf/Firefly | GC0i7umf.")
       })
     </script></a><img src="/assets/images/firefly.png"></section>
 <section><h2 id="-技术架构">🚀 技术架构<a class="anchor" href="#-技术架构"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><ul>
