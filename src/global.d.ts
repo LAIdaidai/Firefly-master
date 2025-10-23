@@ -7,22 +7,75 @@ declare global {
 
   interface Window {
     // Define swup type directly since @swup/astro doesn't export AstroIntegration
-    swup: any;
+    swup?: any;
     live2dModelInitialized?: boolean;
     spineModelInitialized?: boolean;
     spinePlayerInstance?: any;
-    pagefind: {
+    semifullScrollHandler?: ((event: Event) => void) | null;
+    initSemifullScrollDetection?: () => void;
+    sakuraInitialized?: boolean;
+    iconifyLoaded?: boolean;
+    __iconifyLoaderInitialized?: boolean;
+    pagefind?: {
       search: (query: string) => Promise<{
         results: Array<{
           data: () => Promise<SearchResult>;
         }>;
       }>;
+      options?: (options?: Record<string, unknown>) => Promise<void> | void;
+      [key: string]: unknown;
     };
 
     mobileTOCInit?: () => void;
     __iconifyLoader?: {
-      load: () => Promise<any>;
+      load: (options?: { timeout?: number; retryCount?: number }) => Promise<unknown>;
+      addToPreloadQueue?: (icons: string[] | string) => void;
+      onLoad?: (callback: () => void) => void;
+      isLoaded?: boolean;
+      isLoading?: boolean;
+    } | null;
+    loadIconify?: () => Promise<unknown> | void;
+    preloadIcons?: (icons: string[] | string) => void;
+    onIconifyReady?: (callback: () => void) => void;
+    closeAnnouncement?: () => void;
+    floatingTOCBtn?: HTMLElement | null;
+    floatingTOCPanel?: HTMLElement | null;
+    tocItems?: HTMLElement[];
+    activeHeadingId?: string;
+    observer?: IntersectionObserver | null;
+    minDepth?: number;
+    maxLevel?: number;
+    scrollTimeout?: ReturnType<typeof setTimeout> | null;
+    toggleFloatingTOC?: () => void;
+    tocInternalNavigation?: boolean;
+    Turbo?: any;
+    BackToTopManager?: new (...args: unknown[]) => unknown;
+    mermaidInitialized?: boolean;
+    mermaid?: any;
+    spine?: any;
+    animePageConfig?: {
+      userId: string;
+      apiBase: string;
+      collectionTypes: string[];
+      pageSize: number;
+      pagination: {
+        first: string;
+        prev: string;
+        next: string;
+        last: string;
+        page: string;
+        of: string;
+        total: string;
+        records: string;
+      };
     };
+    loadlive2d?: (
+      canvasId: string,
+      modelPath: string,
+      options?: Record<string, unknown>,
+    ) => void;
+    testSlideAnimation?: (...args: unknown[]) => void;
+    simulatePageTransition?: (...args: unknown[]) => void;
   }
 }
 

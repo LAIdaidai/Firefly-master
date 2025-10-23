@@ -2,12 +2,13 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
-		"moduleResolution": "Node",
-		"jsx": "react-jsx",
-		"jsxImportSource": "react",
-		"baseUrl": ".",
-		"strictNullChecks": true,
-		"allowJs": false,
+                "moduleResolution": "Node",
+                "jsx": "react-jsx",
+                "jsxImportSource": "react",
+                "baseUrl": ".",
+                "strictNullChecks": true,
+                "allowSyntheticDefaultImports": true,
+                "allowJs": false,
 		"declaration": true,
 		"plugins": [
 			{

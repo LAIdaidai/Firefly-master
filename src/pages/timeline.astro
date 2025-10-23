@@ -397,8 +397,9 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
   // 确保图标库已加载，并处理页面导航
   document.addEventListener('DOMContentLoaded', () => {
     // 如果图标加载器存在，确保图标已加载
-    if (window.__iconifyLoader) {
-      window.__iconifyLoader.load().then(() => {
+    const loader = window.__iconifyLoader;
+    if (loader && typeof loader.load === "function") {
+      loader.load().then(() => {
         // 图标加载完成后，触发时间线项目的重新渲染
         const timelineItems = document.querySelectorAll('.timeline-item');
         timelineItems.forEach(item => {
@@ -414,10 +415,14 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
   if (typeof window !== 'undefined') {
     // 监听页面显示事件（包括前进/后退导航）
     window.addEventListener('pageshow', (event) => {
-      if (event.persisted && window.__iconifyLoader) {
+      if (
+        event.persisted &&
+        window.__iconifyLoader &&
+        typeof window.__iconifyLoader.load === "function"
+      ) {
         // 页面从缓存恢复，重新检查图标状态
         setTimeout(() => {
-          window.__iconifyLoader.load().catch(console.error);
+          window.__iconifyLoader?.load?.().catch(console.error);
         }, 100);
       }
     });
