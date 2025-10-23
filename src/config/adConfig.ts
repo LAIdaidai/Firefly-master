@@ -2,7 +2,7 @@ import type { AdConfig } from "../types/config";
 
 // 这里只是配置广告内容，如果要开关请在sidebarConfig.ts中控制侧边栏组件的的启用组件即可
 
-// 广告配置1 - 纯图片广告（无边距）
+// 广告配置1 - 纯图片广告
 export const adConfig1: AdConfig = {
   image: {
     src: "/assets/images/d1.webp",
