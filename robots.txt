@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /_astro/
+
+Sitemap: https://xn--6qqv7i14ofosyrb.github.io/Firefly/sitemap-index.xml
