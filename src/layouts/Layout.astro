@@ -3,7 +3,7 @@ import ConfigCarrier from "@components/ConfigCarrier.astro";
 import FontManager from "@components/FontManager.astro";
 import MusicPlayer from "@components/widget/MusicPlayer.svelte";
 
-import { profileConfig, siteConfig, sakuraConfig } from "../config";
+import { profileConfig, sakuraConfig, siteConfig } from "../config";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
@@ -11,8 +11,8 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
-	SYSTEM_MODE,
 	PAGE_WIDTH,
+	SYSTEM_MODE,
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon, SakuraConfig } from "../types/config";
@@ -78,7 +78,9 @@ if (!banner || typeof banner !== "string" || banner.trim() === "") {
 // TODO don't use post cover as banner for now
 banner = getDefaultBackground();
 
-const enableBanner = siteConfig.backgroundWallpaper.enable && siteConfig.backgroundWallpaper.mode === "banner";
+const enableBanner =
+	siteConfig.backgroundWallpaper.enable &&
+	siteConfig.backgroundWallpaper.mode === "banner";
 
 let pageTitle: string;
 if (title) {
@@ -110,7 +112,6 @@ const bannerOffsetByPosition = {
 };
 const bannerOffset =
 	bannerOffsetByPosition[siteConfig.backgroundWallpaper.position || "center"];
-
 ---
 
 <!DOCTYPE html>
@@ -847,9 +848,13 @@ function showBanner() {
 
 
 const setup = () => {
-	// TODO: temp solution to change the height of the banner
+const swupInstance = window.swup;
+if (!swupInstance?.hooks) {
+return;
+}
+// TODO: temp solution to change the height of the banner
 /*
-	window.swup.hooks.on('animation:out:start', () => {
+swupInstance.hooks.on('animation:out:start', () => {
 		const path = window.location.pathname
 		const body = document.querySelector('body')
 		if (path[path.length - 1] === '/' && !body.classList.contains('is-home')) {
@@ -859,7 +864,7 @@ const setup = () => {
 		}
 	})
 */
-	window.swup.hooks.on('link:click', () => {
+swupInstance.hooks.on('link:click', () => {
 		// Remove the delay for the first time page load
 		document.documentElement.style.setProperty('--content-delay', '0ms')
 
@@ -874,7 +879,7 @@ const setup = () => {
 			}
 		}
 	})
-	window.swup.hooks.on('content:replace', () => {
+swupInstance.hooks.on('content:replace', () => {
 		// 只处理新的katex元素的滚动条，使用原生CSS滚动条
 		initCustomScrollbar();
 		
@@ -883,20 +888,22 @@ const setup = () => {
 		const isArticlePage = tocWrapper !== null;
 		
 		// 只在文章页面重新初始化 TOC 组件
-		if (isArticlePage) {
-			const tocElement = document.querySelector('table-of-contents');
-			if (tocElement && typeof (tocElement as any).init === 'function') {
-				setTimeout(() => {
-					(tocElement as any).init();
-				}, 100);
-			}
-			
-			// 重新初始化移动端 TOC 组件
-			if (typeof (window as any).mobileTOCInit === 'function') {
-				setTimeout(() => {
-					(window as any).mobileTOCInit();
-				}, 100);
-			}
+if (isArticlePage) {
+const tocElement = document.querySelector<
+HTMLElementTagNameMap['table-of-contents']
+>('table-of-contents');
+if (tocElement?.init) {
+setTimeout(() => {
+tocElement.init?.();
+}, 100);
+}
+
+// 重新初始化移动端 TOC 组件
+if (typeof window.mobileTOCInit === 'function') {
+setTimeout(() => {
+window.mobileTOCInit?.();
+}, 100);
+}
 		}
 		
 		
@@ -908,13 +915,13 @@ const setup = () => {
 			
 			if (transparentMode === 'semifull') {
 				// 重新调用初始化函数来重新绑定滚动事件
-				if (typeof (window as any).initSemifullScrollDetection === 'function') {
-					(window as any).initSemifullScrollDetection()
-				}
-			}
-		}
+if (typeof window.initSemifullScrollDetection === 'function') {
+window.initSemifullScrollDetection?.()
+}
+}
+}
 	})
-	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
+swupInstance.hooks.on('visit:start', (visit: {to: {url: string}}) => {
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')
 		const isHomePage = pathsEqual(visit.to.url, url('/'))
@@ -985,7 +992,7 @@ const setup = () => {
 			toc.classList.add('toc-not-ready')
 		}
 	});
-	window.swup.hooks.on('page:view', () => {
+swupInstance.hooks.on('page:view', () => {
 		// hide the temp high element when the transition is done
 		const heightExtend = document.getElementById('page-height-extend')
 		if (heightExtend) {
@@ -1028,7 +1035,7 @@ const setup = () => {
 			}
 		}, 300);
 	});
-	window.swup.hooks.on('visit:end', (_visit: {to: {url: string}}) => {
+swupInstance.hooks.on('visit:end', (_visit: {to: {url: string}}) => {
 		setTimeout(() => {
 			const heightExtend = document.getElementById('page-height-extend')
 			if (heightExtend) {
@@ -1314,23 +1321,28 @@ function initFancybox() {
   });
 }
 
-const setup = () => {
-  // 初始化 Fancybox
-  initFancybox();
-  
-  // 在页面视图更改时重新初始化
-  window.swup.hooks.on("page:view", () => {
-    // 等待 DOM 更新后初始化
-    setTimeout(() => {
-      initFancybox();
-    }, 100);
-  });
-}
+  const setup = () => {
+    // 初始化 Fancybox
+    initFancybox();
 
-if (window.swup) {
-  setup()
-} else {
-  document.addEventListener("swup:enable", setup)
+    const swupInstance = window.swup;
+    if (!swupInstance?.hooks) {
+      return;
+    }
+
+    // 在页面视图更改时重新初始化
+    swupInstance.hooks.on("page:view", () => {
+      // 等待 DOM 更新后初始化
+      setTimeout(() => {
+        initFancybox();
+      }, 100);
+    });
+  }
+
+  if (window.swup?.hooks) {
+    setup()
+  } else {
+    document.addEventListener("swup:enable", setup)
   
   // 如果 swup 尚未初始化，则直接初始化
   if (document.readyState === "loading") {

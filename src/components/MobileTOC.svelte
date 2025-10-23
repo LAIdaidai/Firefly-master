@@ -39,8 +39,8 @@ const generateTOC = () => {
 
 	headings.forEach((heading) => {
 		if (heading.id) {
-			const level = Number.parseInt(heading.tagName.charAt(1));
-			const text = (heading.textContent || '').replace(/#+\s*$/, '');
+			const level = Number.parseInt(heading.tagName.charAt(1), 10);
+			const text = (heading.textContent || "").replace(/#+\s*$/, "");
 			items.push({ id: heading.id, text, level });
 		}
 	});
@@ -160,12 +160,12 @@ const setupIntersectionObserver = () => {
 const checkSwupAvailability = () => {
 	if (typeof window !== "undefined") {
 		// 检查Swup是否已加载
-		swupReady = !!(window as any).swup;
+		swupReady = Boolean(window.swup);
 
 		// 如果Swup还未加载，监听其加载事件
 		if (!swupReady) {
 			const checkSwup = () => {
-				if ((window as any).swup) {
+				if (window.swup) {
 					swupReady = true;
 					document.removeEventListener("swup:enable", checkSwup);
 				}
@@ -176,7 +176,7 @@ const checkSwupAvailability = () => {
 
 			// 设置超时检查
 			setTimeout(() => {
-				if ((window as any).swup) {
+				if (window.swup) {
 					swupReady = true;
 					document.removeEventListener("swup:enable", checkSwup);
 				}
@@ -214,7 +214,7 @@ onMount(() => {
 
 // 导出初始化函数供外部调用
 if (typeof window !== "undefined") {
-	(window as any).mobileTOCInit = init;
+	window.mobileTOCInit = init;
 }
 </script>
 

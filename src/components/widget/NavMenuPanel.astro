@@ -1,38 +1,39 @@
 ---
 import { Icon } from "astro-icon/components";
-import { type NavBarLink, LinkPreset } from "../../types/config";
 import { LinkPresets } from "../../constants/link-presets";
+import { LinkPreset, type NavBarLink } from "../../types/config";
 import { url } from "../../utils/url-utils";
 
 interface Props {
-        links: NavBarLink[];
+	links: NavBarLink[];
 }
 
 type NavBarResolvedLink = Omit<NavBarLink, "children"> & {
-        children?: NavBarResolvedLink[];
+	children?: NavBarResolvedLink[];
 };
 
 function resolveLink(link: NavBarLink): NavBarResolvedLink {
-        const { children, ...rest } = link;
-        const resolvedChildren = children?.map((child) => {
-                const resolvedChild = typeof child === "number" ? LinkPresets[child] : child;
-                return resolveLink(resolvedChild);
-        });
+	const { children, ...rest } = link;
+	const resolvedChildren = children?.map((child) => {
+		const resolvedChild =
+			typeof child === "number" ? LinkPresets[child] : child;
+		return resolveLink(resolvedChild);
+	});
 
-        if (resolvedChildren && resolvedChildren.length > 0) {
-                return {
-                        ...rest,
-                        children: resolvedChildren,
-                } satisfies NavBarResolvedLink;
-        }
+	if (resolvedChildren && resolvedChildren.length > 0) {
+		return {
+			...rest,
+			children: resolvedChildren,
+		} satisfies NavBarResolvedLink;
+	}
 
-        return {
-                ...rest,
-        } satisfies NavBarResolvedLink;
+	return {
+		...rest,
+	} satisfies NavBarResolvedLink;
 }
 
 const processedLinks: NavBarResolvedLink[] = Astro.props.links.map((link) =>
-        resolveLink(link),
+	resolveLink(link),
 );
 ---
 <div id="nav-menu-panel" class:list={["float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2 max-h-[80vh] overflow-y-auto"]}>

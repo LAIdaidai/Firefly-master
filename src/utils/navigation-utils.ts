@@ -41,23 +41,27 @@ export function navigateToPage(
 	}
 
 	// 检查 Swup 是否可用
-	if (typeof window !== "undefined" && (window as any).swup) {
-		try {
-			// 使用 Swup 进行无刷新跳转
-			if (options?.replace) {
-				(window as any).swup.navigate(url, { history: false });
-			} else {
-				(window as any).swup.navigate(url);
+	if (typeof window !== "undefined") {
+		const swup = window.swup;
+		if (swup) {
+			try {
+				// 使用 Swup 进行无刷新跳转
+				if (options?.replace) {
+					swup.navigate(url, { history: false });
+				} else {
+					swup.navigate(url);
+				}
+				return;
+			} catch (error) {
+				console.error("Swup navigation failed:", error);
+				// 降级到普通跳转
+				fallbackNavigation(url, options);
+				return;
 			}
-		} catch (error) {
-			console.error("Swup navigation failed:", error);
-			// 降级到普通跳转
-			fallbackNavigation(url, options);
 		}
-	} else {
-		// Swup 不可用时的降级处理
-		fallbackNavigation(url, options);
 	}
+	// Swup 不可用时的降级处理
+	fallbackNavigation(url, options);
 }
 
 /**
@@ -82,14 +86,14 @@ function fallbackNavigation(
  * 检查 Swup 是否已准备就绪
  */
 export function isSwupReady(): boolean {
-	return typeof window !== "undefined" && !!(window as any).swup;
+	return typeof window !== "undefined" && Boolean(window.swup);
 }
 
 /**
  * 等待 Swup 准备就绪
  * @param timeout 超时时间（毫秒）
  */
-export function waitForSwup(timeout: number = 5000): Promise<boolean> {
+export function waitForSwup(timeout = 5000): Promise<boolean> {
 	return new Promise((resolve) => {
 		if (isSwupReady()) {
 			resolve(true);
@@ -127,9 +131,10 @@ export function preloadPage(url: string): void {
 	}
 
 	// 如果 Swup 可用，使用其预加载功能
-	if (isSwupReady() && (window as any).swup.preload) {
+	const swup = window.swup;
+	if (isSwupReady() && swup?.preload) {
 		try {
-			(window as any).swup.preload(url);
+			swup.preload(url);
 		} catch (error) {
 			console.warn("Failed to preload page:", error);
 		}
